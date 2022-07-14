@@ -116,6 +116,15 @@ def compute_alpha(a, d, tn, te, eb, es, ub, us, sb, ss, n_buys, n_sells):
     
     return alpha
 
+def compute_buying(a, d, tn, te, eb, es, ub, us, sb, ss, n_buys, n_sells):
+    ll = _ll(a, d, tn, te, eb, es, ub, us, sb, ss, n_buys, n_sells)
+    llmax = ll.max(axis=0)
+    y = exp(ll-llmax)
+    alpha = y[4:].sum(axis=0)/y.sum(axis=0)
+    
+    return alpha
+
+
 def loglik(theta, n_buys, n_sells):
     a,d,t,eb,es,ub,us,sb,ss = theta
     ll = _ll(a,d,t,t,eb,es,ub,us,sb,ss,n_buys,n_sells)

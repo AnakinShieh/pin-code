@@ -58,6 +58,10 @@ def _lf(eb, es, n_buys, n_sells):
     return -eb+n_buys*log(eb)-lfact(n_buys)-es+n_sells*log(es)-lfact(n_sells)
 
 def _ll(a, d, eb, es, u, n_buys, n_sells):
+    # 0 bad news, informed selling
+    # 1 good news, informed buying
+    # 2 no news
+    # shape of this array is N(obs) * 3
     return np.array([log(a*(1-d))+_lf(eb,es+u,n_buys,n_sells), 
                    log(a*d)+_lf(eb+u,es,n_buys,n_sells), 
                    log(1-a)+_lf(eb,es,n_buys,n_sells)])
@@ -70,6 +74,17 @@ def compute_alpha(a, d, eb, es, u, n_buys, n_sells):
     llmax = ll.max(axis=0)
     y = exp(ll-llmax)
     alpha = y[:-1].sum(axis=0)/y.sum(axis=0)
+    
+    return alpha
+
+def compute_buying(a, d, eb, es, u, n_buys, n_sells):
+    '''Compute the conditional alpha given parameters, buys, and sells.
+
+    '''
+    ll = _ll(a, d, eb, es, u, n_buys, n_sells)    
+    llmax = ll.max(axis=0)
+    y = exp(ll-llmax)
+    alpha = y[1].sum(axis=0)/y.sum(axis=0)
     
     return alpha
 

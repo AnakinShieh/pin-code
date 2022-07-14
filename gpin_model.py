@@ -79,6 +79,17 @@ def compute_alpha(a, r, p, eta, d, th, n_buys, n_sells):
 
     return alpha
 
+def compute_buying(a, r, p, eta, d, th, n_buys, n_sells):
+    '''Compute the conditional prob for buy given parameters, buys, and sells.
+
+    '''
+    ys = _ll(a, r, p, eta, d, th, n_buys, n_sells)
+
+    ymax = ys.max(axis=0)
+    lik = exp(ys-ymax)
+    alpha = lik[1].sum(axis=0)/lik.sum(axis=0)
+    return alpha
+
 def nbm_ll(theta, x):
     a,p,eta,r = theta
     q = (p+eta*p)/(1+eta*p)
