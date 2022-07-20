@@ -84,7 +84,7 @@ def compute_buying(a, d, eb, es, u, n_buys, n_sells):
     ll = _ll(a, d, eb, es, u, n_buys, n_sells)    
     llmax = ll.max(axis=0)
     y = exp(ll-llmax)
-    alpha = y[1].sum(axis=0)/y.sum(axis=0)
+    alpha = y[1]/y.sum(axis=0)
     
     return alpha
 

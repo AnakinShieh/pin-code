@@ -87,7 +87,7 @@ def compute_buying(a, r, p, eta, d, th, n_buys, n_sells):
 
     ymax = ys.max(axis=0)
     lik = exp(ys-ymax)
-    alpha = lik[1].sum(axis=0)/lik.sum(axis=0)
+    alpha = lik[1]/lik.sum(axis=0)
     return alpha
 
 def nbm_ll(theta, x):
