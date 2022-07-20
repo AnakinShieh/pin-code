@@ -151,6 +151,8 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
     res_final = [a0,d0,t0,eb0,es0,ub0,us0,sb0,ss0]
     stderr = np.zeros_like(res_final)
     f = nll(res_final,n_buys,n_sells)
+    outputraw = []
+
     for i in range(starts):
         rc = -1
         j = 0
@@ -168,6 +170,7 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
             j+=1
         if (res['success']) & (res['fun'] <= f):
             f,rc = res['fun'],res['status']
+            outputraw.append(res)
             res_final = res['x'].tolist()
             stderr = 1/np.sqrt(inv(res['hess_inv'].todense()).diagonal())
     param_names = 'a,d,t,eb,es,ub,us,sb,ss'.split(',')        
@@ -178,7 +181,7 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
                   'se': dict(zip(param_names,stderr)),
                   'stats':{'f': res['fun'],'rc': res['status']}
                  } 
-    return output
+    return output,outputraw
 
 def cpie_mech_dy(turn):
     km = k_means(np.array([turn]).T,2,random_state=1234)[0].flatten()

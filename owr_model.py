@@ -150,6 +150,8 @@ def fit(oib, ret_d, ret_o, starts=10, maxiter=100,
     res_final = [a0,su0,sz0,si0,spd0,spo0]
     stderr = np.zeros_like(res_final)
     f = nll(res_final,oib,ret_d,ret_o)
+    outputraw = []
+
     for i in range(starts):
         rc = -1
         j = 0
@@ -165,6 +167,7 @@ def fit(oib, ret_d, ret_o, starts=10, maxiter=100,
             j+=1
         if (res['success']) & (res['fun'] <= f):
             f,rc = res['fun'],res['status']
+            outputraw.append(res)
             res_final = res['x'].tolist()
             stderr = 1/np.sqrt(inv3(res['hess_inv'].todense()).diagonal())
     param_names = 'a,su,sz,si,spd,spo'.split(',')
@@ -175,7 +178,7 @@ def fit(oib, ret_d, ret_o, starts=10, maxiter=100,
                   'se': dict(zip(param_names,stderr)),
                   'stats':{'f': -f,'rc': rc}
                  } 
-    return output
+    return output, outputraw
 
 if __name__ == '__main__':
 
