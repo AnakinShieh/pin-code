@@ -188,6 +188,7 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
             a0,p0,eta0,r0,d0,th0 = res['x']
             stderr2 = 1/np.sqrt(inv(res['hess_inv'].todense()).diagonal())
     
+    outputraw = []
     nll = lambda *args: -nbm_ll(*args)
     f = nll([a0,p0,eta0,r0],turn)
     for i in range(starts):
@@ -208,6 +209,7 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
             _,rc = res['fun'],res['status']
             a0,p0,eta0,r0 = res['x']
             stderr1 = 1/np.sqrt(inv(res['hess_inv'].todense()).diagonal())
+            outputraw.append(res)
 
     res_final = [a0,p0,eta0,r0,d0,th0]
     param_names = 'a,p,eta,r,d,th'.split(',')
@@ -219,7 +221,7 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
                   'se': dict(zip(param_names,stderr)),
                   'stats':{'f': f,'rc': rc}
                  } 
-    return output
+    return output,outputraw
 
 if __name__ == '__main__':
     
