@@ -14,3 +14,5 @@ pin-estimates.ipynb
 2009.txt
 2010.txt
 2011.txt
+my-db.duckdb
+my-db.duckdb.wal

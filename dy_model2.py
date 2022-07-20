@@ -109,16 +109,16 @@ def _ll(a, d, tn, te, eb, es, ub, us, sb, ss, n_buys, n_sells):
                      log((a)*(tn)*(d))+_lf(eb+sb+ub,es+ss,n_buys,n_sells)])
 
 # modify to be compaitable tn te
-def compute_alpha(a, d, tn, te, eb, es, ub, us, sb, ss, n_buys, n_sells):
-    ll = _ll(a, d, tn, te, eb, es, ub, us, sb, ss, n_buys, n_sells)
+def compute_alpha(a, d, t, eb, es, ub, us, sb, ss, n_buys, n_sells):
+    ll = _ll(a, d, t, t, eb, es, ub, us, sb, ss, n_buys, n_sells)
     llmax = ll.max(axis=0)
     y = exp(ll-llmax)
     alpha = y[2:].sum(axis=0)/y.sum(axis=0)
     
     return alpha
 
-def compute_buying(a, d, tn, te, eb, es, ub, us, sb, ss, n_buys, n_sells):
-    ll = _ll(a, d, tn, te, eb, es, ub, us, sb, ss, n_buys, n_sells)
+def compute_buying(a, d, t, eb, es, ub, us, sb, ss, n_buys, n_sells):
+    ll = _ll(a, d, t, t, eb, es, ub, us, sb, ss, n_buys, n_sells)
     llmax = ll.max(axis=0)
     y = exp(ll-llmax)
     alpha = y[4:].sum(axis=0)/y.sum(axis=0)
