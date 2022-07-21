@@ -153,6 +153,13 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
     f = nll(res_final,n_buys,n_sells)
     outputraw = []
 
+    eb = eb or abs(eb0)
+    es = es or abs(es0)
+    ub = ub or abs(ub0)
+    us = us or abs(us0)
+    sb = sb or abs(sb0)
+    ss = ss or abs(ss0)
+
     for i in range(starts):
         rc = -1
         j = 0

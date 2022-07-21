@@ -112,6 +112,10 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
     f = nll(res_final,n_buys,n_sells)
     outputraw = []
 
+    # Fix multi run
+    eb , es = eb or np.mean(n_buys), es or np.mean(n_sells)
+    u = u or np.mean(abs(oib))
+
     for i in range(starts):
         rc = -1
         j = 0
