@@ -10,7 +10,7 @@ from scipy.misc import logsumexp
 import scipy.optimize as op
 
 # import common functions
-from common import *
+from .common import *
 
 from numba import jit
 

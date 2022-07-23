@@ -9,7 +9,7 @@ from scipy.linalg import inv
 import scipy.optimize as op
 
 # import common functions
-from common import *
+from .common import *
 
 class EOModel(object):
 

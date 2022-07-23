@@ -14,7 +14,7 @@ from itertools import zip_longest
 from sklearn.cluster import k_means
 
 # import common functions
-from common import *
+from .common import *
 
 class DYModel(object):
 

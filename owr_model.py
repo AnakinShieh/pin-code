@@ -13,7 +13,7 @@ import scipy.optimize as op
 # optimization
 from numba import jit
 
-from common import *
+from .common import *
 
 class OWRModel(object):
     
