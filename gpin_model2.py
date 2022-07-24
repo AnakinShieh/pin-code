@@ -146,6 +146,11 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
     res_final = [a0,p0,eta0,r0,d0,th0]
     stderr1,stderr2 = np.zeros(4),np.zeros(2)
     
+    # est step1 est a p eta r, 
+    # 原文章的实现思路是每一步分别random start然后。。问题是结果很差。。而且还写了个第一步没random的bug，也可能是故意的
+    # 改成第一步纯random，
+    # 第二
+
     nll = lambda *args: -nbm_ll(*args)
     f = nll([a0,p0,eta0,r0],n_buys+n_sells)
     for i in range(starts):
@@ -153,8 +158,7 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
         j = 0
         while (rc != 0) & (j <= maxiter):
             # if any missing or not first iteration try random starts
-            if (None in (a,p,eta,r)) or i:
-                a,p,eta,r = [np.random.uniform(l,np.nan_to_num(h)) for (l,h) in ranges[:4]]
+            a0,p0,eta0,r0 = [np.random.uniform(l,np.nan_to_num(h)) for (l,h) in ranges[:4]]
             res = op.minimize(nll, [a0,p0,eta0,r0], method=None,
                               bounds=bounds[:4], args=(turn))
             rc = res['status']
@@ -173,9 +177,8 @@ def fit(n_buys, n_sells, starts=10, maxiter=100,
         rc = -1
         j = 0
         while (rc != 0) & (j <= maxiter):
-            # if any missing or not first iteration try random starts
-            if (None in (a0,p0,eta0,r0,d0,th0)) or i:
-                a0,p0,eta0,r0,d0,th0 = [np.random.uniform(l,np.nan_to_num(h)) for (l,h) in ranges]
+            # only randomize d the
+            _,_,_,_,d0,th0 = [np.random.uniform(l,np.nan_to_num(h)) for (l,h) in ranges]
             res = op.minimize(nll, [a0,p0,eta0,r0,d0,th0], method=None,
                               bounds=bounds, args=(n_buys,n_sells))
             rc = res['status']
